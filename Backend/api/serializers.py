@@ -29,14 +29,12 @@ class UserSerializer(serializers.ModelSerializer):
         return self.sanitize_input(value)
 
 class NoteSerializer(serializers.ModelSerializer):
+    author = serializers.CharField(source='author.username',read_only=True)
+    
     class Meta:
         model = Note
         fields = ['id','title','content','created_at','author']
-        extra_kwargs = {
-            "author": {
-                "read_only" : True
-            }
-        }
+        
 
     def validate_text(self, value):
         allowed_tags = ['b', 'i', 'u', 'strong', 'em', 'p', 'br']
